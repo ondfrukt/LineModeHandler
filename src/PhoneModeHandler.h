@@ -1,5 +1,5 @@
-#ifndef LineModeHandler_h
-#define LineModeHandler_h
+#ifndef PhoneModeHandler_h
+#define PhoneModeHandler_h
 
 #include <Arduino.h>
 
