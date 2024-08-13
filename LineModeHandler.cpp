@@ -1,6 +1,7 @@
 #include "LineModeHandler.h"
 
 PhoneSystem::PhoneSystem() {
+    // Initialize all phones to idle state
     for (int i = 0; i < 8; ++i) {
         phones[i].current_mode = call_idle;
         phones[i].line_number = i;
@@ -11,7 +12,7 @@ void PhoneSystem::setPhoneMode(int line, modes new_mode) {
     if (line >= 0 && line < 8) {
         phones[line].current_mode = new_mode;
     } else {
-        Serial.println(F("Ogiltig telefonlinje!"));
+        Serial.println(F("Invalid phone line!"));
     }
 }
 
@@ -19,13 +20,13 @@ modes PhoneSystem::getPhoneMode(int line) {
     if (line >= 0 && line < 8) {
         return phones[line].current_mode;
     }
-    Serial.println(F("Ogiltig telefonlinje!"));
-    return call_idle;
+    Serial.println(F("Invalid phone line!"));
+    return call_idle;  // Return default state for invalid line
 }
 
 void PhoneSystem::displayAllPhoneStatus() {
     for (int i = 0; i < 8; ++i) {
-        Serial.print(F("Linje "));
+        Serial.print(F("Line "));
         Serial.print(phones[i].line_number);
         Serial.print(F(": "));
         Serial.println(getModeString(phones[i].current_mode));
@@ -33,6 +34,8 @@ void PhoneSystem::displayAllPhoneStatus() {
 }
 
 const __FlashStringHelper* PhoneSystem::getModeString(modes mode) {
+    // Convert enum to string representation
+    // Using F() macro to store strings in flash memory
     switch(mode) {
         case call_idle: return F("Idle");
         case call_ready: return F("Ready");
