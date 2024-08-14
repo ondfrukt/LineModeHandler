@@ -1,46 +1,56 @@
-#ifndef LineStatusHandler_h
-#define LineStatusHandler_h
+#include "LineStatusHandler.h"
 
-#include <Arduino.h>
+LineSystem::LineSystem() {
+    // Initialize all lines to idle state
+    for (int i = 0; i < 8; ++i) {
+        lines[i].current_status = line_idle;
+        lines[i].line_number = i;
+    }
+}
 
-// Enum representing all possible statuses of a line
-enum statuses {
-    line_idle,           // Line is not in use
-    line_ready,          // Dial tone is playing, waiting for input
-    line_pulse_dialing,  // Old-style rotary dialing in progress
-    line_tone_dialing,   // Modern touch-tone dialing in progress
-    line_connecting,     // Attempting to establish a connection
-    line_busy,           // Receiving busy signal
-    line_fail,           // Line failed to connect
-    line_ringing,        // Line is ringing (outgoing call)
-    line_connected,      // Call is active
-    line_disconnected,   // Call has ended, but line not yet idle
-    line_timeout,        // Line timed out
-    line_abandoned,      // Line was abandoned
-    line_incoming,       // Incoming call
-    line_operator,       // Connected to operator
-    system_config        // Line is in configuration mode
-};
+void LineSystem::setLineStatus(int line, statuses new_status) {
+    if (line >= 0 && line < 8) {
+        lines[line].current_status = new_status;
+    } else {
+        Serial.println("Invalid line number!");
+    }
+}
 
-// Structure representing a single line
-struct Line {
-    statuses current_status; // Current status of the line
-    int line_number;         // Identifier for the line (0-7)
-};
+statuses LineSystem::getLineStatus(int line) {
+    if (line >= 0 && line < 8) {
+        return lines[line].current_status;
+    }
+    Serial.println("Invalid line number!");
+    return line_idle;  // Return default state for invalid line
+}
 
-class LineSystem {
-public:
-    LineSystem();
-    // Set the status of a specific line
-    void setLineStatus(int line, statuses new_status);
-    // Get the current status of a specific line
-    statuses getLineStatus(int line);
-    // Display the status of all lines
-    void displayAllLineStatuses();
-private:
-    Line lines[8];  // Array to hold 8 lines
-    // Helper function to convert status enum to string
-    const __FlashStringHelper* getStatusString(statuses status);
-};
+void LineSystem::displayAllLineStatuses() {
+    for (int i = 0; i < 8; ++i) {
+        Serial.print("Line ");
+        Serial.print(lines[i].line_number);
+        Serial.print(": ");
+        Serial.println(getStatusString(lines[i].current_status));
+    }
+}
 
-#endif // LineStatusHandler_h
+const char* LineSystem::getStatusString(statuses status) {
+    // Convert enum to string representation
+    switch(status) {
+        case line_idle: return "Idle";
+        case line_ready: return "Ready";
+        case line_pulse_dialing: return "Pulse Dialing";
+        case line_tone_dialing: return "Tone Dialing";
+        case line_connecting: return "Connecting";
+        case line_busy: return "Busy";
+        case line_fail: return "Fail";
+        case line_ringing: return "Ringing";
+        case line_connected: return "Connected";
+        case line_disconnected: return "Disconnected";
+        case line_timeout: return "Timeout";
+        case line_abandoned: return "Abandoned";
+        case line_incoming: return "Incoming";
+        case line_operator: return "Operator";
+        case system_config: return "System Config";
+        default: return "Unknown";
+    }
+}
