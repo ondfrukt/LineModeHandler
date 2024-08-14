@@ -1,57 +1,56 @@
-#include "PhoneModeHandler.h"
+#include "LineStatusHandler.h"
 
-PhoneSystem::PhoneSystem() {
-    // Initialize all phones to idle state
+LineSystem::LineSystem() {
+    // Initialize all lines to idle state
     for (int i = 0; i < 8; ++i) {
-        phones[i].current_mode = call_idle;
-        phones[i].line_number = i;
+        lines[i].current_status = line_idle;
+        lines[i].line_number = i;
     }
 }
 
-void PhoneSystem::setPhoneMode(int line, modes new_mode) {
+void LineSystem::setLineStatus(int line, statuses new_status) {
     if (line >= 0 && line < 8) {
-        phones[line].current_mode = new_mode;
+        lines[line].current_status = new_status;
     } else {
-        Serial.println(F("Invalid phone line!"));
+        Serial.println("Invalid line number!");
     }
 }
 
-modes PhoneSystem::getPhoneMode(int line) {
+statuses LineSystem::getLineStatus(int line) {
     if (line >= 0 && line < 8) {
-        return phones[line].current_mode;
+        return lines[line].current_status;
     }
-    Serial.println(F("Invalid phone line!"));
-    return call_idle;  // Return default state for invalid line
+    Serial.println("Invalid line number!");
+    return line_idle;  // Return default state for invalid line
 }
 
-void PhoneSystem::displayAllPhoneStatus() {
+void LineSystem::displayAllLineStatuses() {
     for (int i = 0; i < 8; ++i) {
-        Serial.print(F("Line "));
-        Serial.print(phones[i].line_number);
-        Serial.print(F(": "));
-        Serial.println(getModeString(phones[i].current_mode));
+        Serial.print("Line ");
+        Serial.print(lines[i].line_number);
+        Serial.print(": ");
+        Serial.println(getStatusString(lines[i].current_status));
     }
 }
 
-const __FlashStringHelper* PhoneSystem::getModeString(modes mode) {
+const char* LineSystem::getStatusString(statuses status) {
     // Convert enum to string representation
-    // Using F() macro to store strings in flash memory
-    switch(mode) {
-        case call_idle: return F("Idle");
-        case call_ready: return F("Ready");
-        case call_pulse_dialing: return F("Pulse Dialing");
-        case call_tone_dialing: return F("Tone Dialing");
-        case call_connecting: return F("Connecting");
-        case call_busy: return F("Busy");
-        case call_fail: return F("Fail");
-        case call_ringing: return F("Ringing");
-        case call_connected: return F("Connected");
-        case call_disconnected: return F("Disconnected");
-        case call_timeout: return F("Timeout");
-        case call_abandoned: return F("Abandoned");
-        case call_incoming: return F("Incoming");
-        case call_operator: return F("Operator");
-        case system_config: return F("System Config");
-        default: return F("Unknown");
+    switch(status) {
+        case line_idle: return "Idle";
+        case line_ready: return "Ready";
+        case line_pulse_dialing: return "Pulse Dialing";
+        case line_tone_dialing: return "Tone Dialing";
+        case line_connecting: return "Connecting";
+        case line_busy: return "Busy";
+        case line_fail: return "Fail";
+        case line_ringing: return "Ringing";
+        case line_connected: return "Connected";
+        case line_disconnected: return "Disconnected";
+        case line_timeout: return "Timeout";
+        case line_abandoned: return "Abandoned";
+        case line_incoming: return "Incoming";
+        case line_operator: return "Operator";
+        case system_config: return "System Config";
+        default: return "Unknown";
     }
 }
