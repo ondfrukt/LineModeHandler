@@ -1,45 +1,46 @@
-#ifndef PhoneModeHandler_h
-#define PhoneModeHandler_h
+#ifndef LineStatusHandler_h
+#define LineStatusHandler_h
 
 #include <Arduino.h>
 
-// Enum representing all possible states of a phone
-enum modes {
-    call_idle,          // Phone is not in use
-    call_ready,         // Dial tone is playing, waiting for input
-    call_pulse_dialing, // Old-style rotary dialing in progress
-    call_tone_dialing,  // Modern touch-tone dialing in progress
-    call_connecting,    // Attempting to establish a connection
-    call_busy,          // Receiving busy signal
-    call_fail,          // Call failed to connect
-    call_ringing,       // Phone is ringing (outgoing call)
-    call_connected,     // Call is active
-    call_disconnected,  // Call has ended, but line not yet idle
-    call_timeout,       // Call timed out
-    call_abandoned,     // Call was abandoned
-    call_incoming,      // Incoming call
-    call_operator,      // Connected to operator
-    system_config       // Phone is in configuration mode
+// Enum representing all possible statuses of a line
+enum statuses {
+    line_idle,           // Line is not in use
+    line_ready,          // Dial tone is playing, waiting for input
+    line_pulse_dialing,  // Old-style rotary dialing in progress
+    line_tone_dialing,   // Modern touch-tone dialing in progress
+    line_connecting,     // Attempting to establish a connection
+    line_busy,           // Receiving busy signal
+    line_fail,           // Line failed to connect
+    line_ringing,        // Line is ringing (outgoing call)
+    line_connected,      // Call is active
+    line_disconnected,   // Call has ended, but line not yet idle
+    line_timeout,        // Line timed out
+    line_abandoned,      // Line was abandoned
+    line_incoming,       // Incoming call
+    line_operator,       // Connected to operator
+    system_config        // Line is in configuration mode
 };
 
-// Structure representing a single phone
-struct Phone {
-    modes current_mode; // Current state of the phone
-    int line_number;    // Identifier for the phone line (0-7)
+// Structure representing a single line
+struct Line {
+    statuses current_status; // Current status of the line
+    int line_number;         // Identifier for the line (0-7)
 };
 
-class PhoneSystem {
+class LineSystem {
 public:
-    PhoneSystem();
-    // Set the mode of a specific phone line
-    void setPhoneMode(int line, modes new_mode);
-    // Get the current mode of a specific phone line
-    modes getPhoneMode(int line);
-    // Display the status of all phone lines
-    void displayAllPhoneStatus();
+    LineSystem();
+    // Set the status of a specific line
+    void setLineStatus(int line, statuses new_status);
+    // Get the current status of a specific line
+    statuses getLineStatus(int line);
+    // Display the status of all lines
+    void displayAllLineStatuses();
 private:
-    Phone phones[8];  // Array to hold 8 phone lines
-    // Helper function to convert mode enum to string
-    const __FlashStringHelper* getModeString(modes mode);
+    Line lines[8];  // Array to hold 8 lines
+    // Helper function to convert status enum to string
+    const __FlashStringHelper* getStatusString(statuses status);
 };
-#endif
+
+#endif // LineStatusHandler_h
