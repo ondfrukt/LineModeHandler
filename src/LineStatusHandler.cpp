@@ -3,30 +3,40 @@
 LineSystem::LineSystem() {
     // Initialize all lines to idle state
     for (int i = 0; i < 8; ++i) {
-        lines[i].line_number = i;
-        lines[i].current_status = line_idle;
+        lineArray[i].line_number = i;
+        lineArray[i].current_status = line_idle;
     }
 }
 
-void LineSystem::setLineStatus(int line, statuses new_status) {
+void LineSystem::setLineStatus(int lineNumber, statuses new_status) {
     
     // Uppdating line status and store time when last changed
-    if (line >= 0 && line < 8) {
-        lines[line].previus_status = lines[line].current_status:
-        lines[line].current_status = new_status;
-        lastTimeChanged = millis();
+    if (lineNumber >= 0 && lineNumber < 8) {
+        lineArray[lineNumber].previus_status = lineArray[lineNumber].current_status:
+        lineArray[lineNumber].current_status = new_status;
+        lineArray[lineNumber].lastTimeChanged = millis();
     } else {
         Serial.println("Invalid line number!");
     }
 }
 
-statuses LineSystem::getLineStatus(int line) {
-    if (line >= 0 && line < 8) {
-        return lines[line].current_status;
+statuses LineSystem::getCurrentLineStatus(int lineNumber) {
+    if (lineNumber >= 0 && lineNumber < 8) {
+        return lines[lineNumber].current_status;
     }
     Serial.println("Invalid line number!");
     return line_idle;  // Return default state for invalid line
 }
+
+statuses LineSystem::getPreviousLineStatus(int lineNumber) {
+    if (lineNumber >= 0 && lineNumber < 8) {
+        return lines[lineNumber].previous_status;
+    }
+    Serial.println("Invalid line number!");
+    return line_idle;  // Return default state for invalid line
+}
+
+
 
 void LineSystem::displayAllLineStatuses() {
     for (int i = 0; i < 8; ++i) {
