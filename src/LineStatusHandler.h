@@ -38,11 +38,13 @@ public:
     // Set the status of a specific line
     void setLineStatus(int line, statuses new_status);
     // Get the current status of a specific line
-    statuses getLineStatus(int line);
+    statuses getCurrentLineStatus(int line);
+    // Display the status of all lines
+    statuses getPreviousLineStatus(int line);
     // Display the status of all lines
     void displayAllLineStatuses();
 private:
-    Line lines[8];  // Array to hold 8 lines
+    Line lineArray[8];  // Array to hold 8 lines
     // Helper function to convert status enum to string
     const __FlashStringHelper* getStatusString(statuses status);
 };
