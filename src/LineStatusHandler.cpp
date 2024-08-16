@@ -12,7 +12,7 @@ void LineSystem::setLineStatus(int lineNumber, statuses new_status) {
     
     // Uppdating line status and store time when last changed
     if (lineNumber >= 0 && lineNumber < 8) {
-        lineArray[lineNumber].previousStatus = lineArray[lineNumber].currentStatus:
+        lineArray[lineNumber].previousStatus = lineArray[lineNumber].currentStatus;
         lineArray[lineNumber].currentStatus = new_status;
         lineArray[lineNumber].lastTimeChanged = millis();
     } else {
@@ -30,13 +30,13 @@ statuses LineSystem::getCurrentLineStatus(int lineNumber) {
 
 statuses LineSystem::getPreviousLineStatus(int lineNumber) {
     if (lineNumber >= 0 && lineNumber < 8) {
-        return lineArray[lineNumber].previous_status;
+        return lineArray[lineNumber].previousStatus;
     }
     Serial.println("Invalid line number!");
     return line_idle;  // Return default state for invalid line
 }
 
-unsigned long LineSystem::getLastTimeChanged(int lineNumber) {
+long unsigned int LineSystem::getLastTimeChanged(int lineNumber) {
     if (lineNumber >= 0 && lineNumber < 8) {
         return lineArray[lineNumber].lastTimeChanged;
     }
@@ -53,24 +53,24 @@ void LineSystem::displayAllLineStatuses() {
     }
 }
 
-const char* LineSystem::getStatusString(statuses status) {
+const __FlashStringHelper* LineSystem::getStatusString(statuses status) {
     // Convert enum to string representation
     switch(status) {
-        case line_idle: return "Idle";
-        case line_ready: return "Ready";
-        case line_pulse_dialing: return "Pulse Dialing";
-        case line_tone_dialing: return "Tone Dialing";
-        case line_connecting: return "Connecting";
-        case line_busy: return "Busy";
-        case line_fail: return "Fail";
-        case line_ringing: return "Ringing";
-        case line_connected: return "Connected";
-        case line_disconnected: return "Disconnected";
-        case line_timeout: return "Timeout";
-        case line_abandoned: return "Abandoned";
-        case line_incoming: return "Incoming";
-        case line_operator: return "Operator";
-        case system_config: return "System Config";
-        default: return "Unknown";
+        case line_idle: return F("Idle");
+        case line_ready: return F("Ready");
+        case line_pulse_dialing: return F("Pulse Dialing");
+        case line_tone_dialing: return F("Tone Dialing");
+        case line_connecting: return F("Connecting");
+        case line_busy: return F("Busy");
+        case line_fail: return F("Fail");
+        case line_ringing: return F("Ringing");
+        case line_connected: return F("Connected");
+        case line_disconnected: return F("Disconnected");
+        case line_timeout: return F("Timeout");
+        case line_abandoned: return F("Abandoned");
+        case line_incoming: return F("Incoming");
+        case line_operator: return F("Operator");
+        case system_config: return F("System Config");
+        default: return F("Unknown");
     }
 }
