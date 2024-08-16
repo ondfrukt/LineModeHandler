@@ -22,7 +22,7 @@ void LineSystem::setLineStatus(int lineNumber, statuses new_status) {
 
 statuses LineSystem::getCurrentLineStatus(int lineNumber) {
     if (lineNumber >= 0 && lineNumber < 8) {
-        return lines[lineNumber].current_status;
+        return lineArray[lineNumber].current_status;
     }
     Serial.println("Invalid line number!");
     return line_idle;  // Return default state for invalid line
@@ -30,13 +30,19 @@ statuses LineSystem::getCurrentLineStatus(int lineNumber) {
 
 statuses LineSystem::getPreviousLineStatus(int lineNumber) {
     if (lineNumber >= 0 && lineNumber < 8) {
-        return lines[lineNumber].previous_status;
+        return lineArray[lineNumber].previous_status;
     }
     Serial.println("Invalid line number!");
     return line_idle;  // Return default state for invalid line
 }
 
-
+unsigned long LineSystem::getLastTimeChanged(int lineNumber) {
+    if (lineNumber >= 0 && lineNumber < 8) {
+        return lineArray[lineNumber].lastTimeChanged;
+    }
+    Serial.println("Invalid line number!");
+    return;
+}
 
 void LineSystem::displayAllLineStatuses() {
     for (int i = 0; i < 8; ++i) {
