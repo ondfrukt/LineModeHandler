@@ -24,12 +24,10 @@ enum statuses {
 
 // Structure representing a single line
 struct Line {
-    int line_number;                 // Identifier for the line (0-7)
-    statuses current_status;         // Current status of the line
-    statuses previus_status;         // Previus status for the line
-    unsigned long lastTimeChanged    // Timestampe for last change
-    
-    
+    int line_number;                    // Identifier for the line (0-7)
+    statuses currentStatus;             // Current status of the line
+    statuses previusStatus;             // Previus status for the line
+    unsigned long lastTimeChanged = 0   // Timestampe for last change
 };
 
 class LineSystem {
