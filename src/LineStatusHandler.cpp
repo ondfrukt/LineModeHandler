@@ -53,6 +53,15 @@ void LineSystem::displayAllLineStatuses() {
     }
 }
 
+void LineSystem::displayAllLineStatuses() {
+    for (int i = 0; i < 8; ++i) {
+        Serial.print("Line ");
+        Serial.print(lineArray[i].line_number);
+        Serial.print(": ");
+        Serial.println(this->getStatusString(lineArray[i].currentStatus));
+    }
+}
+
 const __FlashStringHelper* LineSystem::getStatusString(statuses status) {
     // Convert enum to string representation
     switch(status) {

@@ -43,10 +43,11 @@ public:
     long unsigned int getLastTimeChanged(int line);
     // Display the status of all lines
     void displayAllLineStatuses();
-    const __FlashStringHelper* getStatusString(statuses status);
+    
 private:
     Line lineArray[8];  // Array to hold 8 lines
     // Helper function to convert status enum to string
+    const __FlashStringHelper* getStatusString(statuses status);
 };
 
 #endif // LineStatusHandler_h
