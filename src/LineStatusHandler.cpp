@@ -3,14 +3,18 @@
 LineSystem::LineSystem() {
     // Initialize all lines to idle state
     for (int i = 0; i < 8; ++i) {
-        lines[i].current_status = line_idle;
         lines[i].line_number = i;
+        lines[i].current_status = line_idle;
     }
 }
 
 void LineSystem::setLineStatus(int line, statuses new_status) {
+    
+    // Uppdating line status and store time when last changed
     if (line >= 0 && line < 8) {
+        lines[line].previus_status = lines[line].current_status:
         lines[line].current_status = new_status;
+        lastTimeChanged = millis();
     } else {
         Serial.println("Invalid line number!");
     }
