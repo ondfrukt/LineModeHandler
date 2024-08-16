@@ -41,7 +41,7 @@ long unsigned int LineSystem::getLastTimeChanged(int lineNumber) {
         return lineArray[lineNumber].lastTimeChanged;
     }
     Serial.println("Invalid line number!");
-    return;
+    return 0;
 }
 
 void LineSystem::displayAllLineStatuses() {
