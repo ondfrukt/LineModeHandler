@@ -47,9 +47,9 @@ unsigned long LineSystem::getLastTimeChanged(int lineNumber) {
 void LineSystem::displayAllLineStatuses() {
     for (int i = 0; i < 8; ++i) {
         Serial.print("Line ");
-        Serial.print(lines[i].line_number);
+        Serial.print(lineArray[i].line_number);
         Serial.print(": ");
-        Serial.println(getStatusString(lines[i].current_status));
+        Serial.println(getStatusString(lineArray[i].current_status));
     }
 }
 
