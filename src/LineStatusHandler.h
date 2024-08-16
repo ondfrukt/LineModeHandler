@@ -42,6 +42,8 @@ public:
     // Display the status of all lines
     statuses getPreviousLineStatus(int line);
     // Display the status of all lines
+    unsigned long getLastTimeChanged(int line);
+    // Display the status of all lines
     void displayAllLineStatuses();
 private:
     Line lineArray[8];  // Array to hold 8 lines
